@@ -37,8 +37,18 @@ if(isset($_POST['add_order'])){
     $order_date = date('y-m-d h:i:s');
      mysqli_query($con, "INSERT INTO order_detail(order_id, product_id, qty, price, added_on) VALUES('$order_id', '$product_id', '$qty', '$price', '$order_date')");
   }
-  header('location:thankyou.php');
 
+
+  //SUSPICIOUS THING MAY CAUSE ERROR IG !!!
+  $order_sql = "SELECT * FROM orders  WHERE user_id = '$uid'";
+	$res = mysqli_query($con, $order_sql);
+  $check = mysqli_num_rows($res);
+  if($check != 0){
+  header('location:thankyou.php');
+  }
+  else{
+    header('location:index.php');
+  }
 
 }
 ?>

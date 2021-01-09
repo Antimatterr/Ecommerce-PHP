@@ -40,7 +40,7 @@ while ($row = mysqli_fetch_assoc($cat_res)) {
 
           <div class="brands_products">
             <!--brands_products-->
-            <h2>Brands</h2>
+            <!-- <h2>Brands</h2>
             <div class="brands-name">
               <ul class="nav nav-pills nav-stacked">
                 <li><a href="#"> <span class="pull-right">(50)</span>Acne</a></li>
@@ -51,7 +51,7 @@ while ($row = mysqli_fetch_assoc($cat_res)) {
                 <li><a href="#"> <span class="pull-right">(9)</span>Boudestijn</a></li>
                 <li><a href="#"> <span class="pull-right">(4)</span>Rösch creative culture</a></li>
               </ul>
-            </div>
+            </div> -->
           </div>
           <!--/brands_products-->
 
@@ -77,13 +77,12 @@ while ($row = mysqli_fetch_assoc($cat_res)) {
                   <h2>₹<?php echo $list['price'] ?></h2>
                   <p><?php echo $list['name']?></p>
                   <p><?php echo $list['short_desc']?></p>
-                  <a  href="cart.php" name="add_to_cart" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                  <a  href="add_cart.php?action=add&id=<?php echo $list['id'] ?>" name="add_to_cart" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
                 </div>
               </div>
               <div class="choose">
                 <ul class="nav nav-pills nav-justified">
-                  <li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
-                  <li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
+                  <!-- <li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li> -->
                 </ul>
               </div>
             </div>

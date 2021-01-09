@@ -5,6 +5,9 @@ require('./functions.inc.php');
 $product_id = mysqli_real_escape_string($con, $_GET['id']);
 $user_id = mysqli_real_escape_string($con, $_SESSION['USER_ID']); 
 $qty = mysqli_real_escape_string($con, $_POST['qty']);
+if($qty == ""){
+$qty = "1";
+}
 $cart_sql = "INSERT INTO cart(product_id, user_id, qty) VALUES('$product_id', '$user_id', '$qty')";
 $total_sql = "INSERT INTO total(user_id) VALUES('$user_id')";
 

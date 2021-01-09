@@ -1,25 +1,24 @@
-<?php
+<?php 
 require('./connection.inc.php');
 require('./top.php');
 require('./functions.inc.php');
-$cat_id = mysqli_real_escape_string($con, $_GET['id']);
-if($cat_id>0){
-$cat_res = mysqli_query($con, "SELECT * FROM `categories` WHERE status = 1 ORDER BY categories ASC");
+if(isset($_GET['query'])){
+  $term = mysqli_real_escape_string($con, $_GET['query']);
+  $search_sql = "SELECT * FROM product WHERE name LIKE '%$term%'";
+  $search_res = mysqli_query($con,$search_sql);
+  $data = array();
+  $check = mysqli_num_rows($search_res);
+  while($row=mysqli_fetch_assoc($search_res)){
+    $data[]=$row;
+  }
+
+  $cat_res = mysqli_query($con, "SELECT * FROM `categories` WHERE status = 1 ORDER BY categories ASC");
 $cat_arr = array();
-$cat_length = '';
 while ($row = mysqli_fetch_assoc($cat_res)) {
   $cat_arr[] = $row;
 }
-}
-else { ?>
 
-<script>
-window.location.href='index.php';
-</script>
-
-<?php }
-?>
-
+  ?>
 <section>
   <div class="container">
     <div class="row">
@@ -29,14 +28,14 @@ window.location.href='index.php';
           <?php
           foreach ($cat_arr as $list) {
           ?>
+
             <div class="panel-group category-products" id="accordian">
               <!--category-productsr-->
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h4 class="panel-title">
-                    <a href="categories.php?id=<?php echo $list['id']?>" data-parent="#accordian"> 
-                      <?php 
-                       echo $list['categories'] ?>
+                    <a href="categories.php?id=<?php echo $list['id']?>"  data-parent="#accordian"> 
+                      <?php echo $list['categories'] ?>
                     </a>
                   </h4>
                 </div>
@@ -49,8 +48,7 @@ window.location.href='index.php';
 
           <!--/category-products-->
 
-         
-          <!--/brands_products-->
+          
 
 
 
@@ -60,12 +58,11 @@ window.location.href='index.php';
       <div class="col-sm-9 padding-right">
         <div class="features_items">
           <!--features_items-->
-          <h2 class="title text-center">Items</h2>
+          <h2 class="title text-center">Related Items</h2>
 
           <?php
-          $get_product = get_product($con ,6, $cat_id);
-          if($get_product>0){
-          foreach($get_product as $list){
+          foreach($data as $list){
+           
           ?>
           <div class="col-sm-4">
             <div class="product-image-wrapper">
@@ -75,33 +72,30 @@ window.location.href='index.php';
                   <h2>₹<?php echo $list['price'] ?></h2>
                   <p><?php echo $list['name']?></p>
                   <p><?php echo $list['short_desc']?></p>
-                  <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                  <a  href="add_cart.php?action=add&id=<?php echo $list['id'] ?>" name="add_to_cart" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
                 </div>
               </div>
               <div class="choose">
                 <ul class="nav nav-pills nav-justified">
-                  <li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
-                  <li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
+                  <!-- <li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li> -->
                 </ul>
               </div>
             </div>
           </div>
           <?php
-          }
-        }
-        else{
-          echo "Data not found";
-        }
+          } }
           ?>
 
-      
-
+        
         </div>
 
       </div>
     </div>
   </div>
 </section>
+
+
+
 
 
 
