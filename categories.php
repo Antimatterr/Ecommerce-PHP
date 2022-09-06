@@ -104,7 +104,7 @@ window.location.href='index.php';
           }
         }
         else{
-          echo "Data not found";
+          echo "nothing found";
         }
           ?>
 
