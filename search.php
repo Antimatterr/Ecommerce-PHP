@@ -1,14 +1,24 @@
-<?php
+<?php 
 require('./connection.inc.php');
 require('./top.php');
 require('./functions.inc.php');
-$cat_res = mysqli_query($con, "SELECT * FROM `categories` WHERE status = 1 ORDER BY categories ASC");
+if(isset($_GET['query'])){
+  $term = mysqli_real_escape_string($con, $_GET['query']);
+  $search_sql = "SELECT * FROM product WHERE name LIKE '%$term%'";
+  $search_res = mysqli_query($con,$search_sql);
+  $data = array();
+  $check = mysqli_num_rows($search_res);
+  while($row=mysqli_fetch_assoc($search_res)){
+    $data[]=$row;
+  }
+
+  $cat_res = mysqli_query($con, "SELECT * FROM `categories` WHERE status = 1 ORDER BY categories ASC");
 $cat_arr = array();
 while ($row = mysqli_fetch_assoc($cat_res)) {
   $cat_arr[] = $row;
 }
-?>
 
+  ?>
 <section>
   <div class="container">
     <div class="row">
@@ -38,22 +48,7 @@ while ($row = mysqli_fetch_assoc($cat_res)) {
 
           <!--/category-products-->
 
-          <div class="brands_products">
-            <!--brands_products-->
-            <!-- <h2>Brands</h2>
-            <div class="brands-name">
-              <ul class="nav nav-pills nav-stacked">
-                <li><a href="#"> <span class="pull-right">(50)</span>Acne</a></li>
-                <li><a href="#"> <span class="pull-right">(56)</span>Grüne Erde</a></li>
-                <li><a href="#"> <span class="pull-right">(27)</span>Albiro</a></li>
-                <li><a href="#"> <span class="pull-right">(32)</span>Ronhill</a></li>
-                <li><a href="#"> <span class="pull-right">(5)</span>Oddmolly</a></li>
-                <li><a href="#"> <span class="pull-right">(9)</span>Boudestijn</a></li>
-                <li><a href="#"> <span class="pull-right">(4)</span>Rösch creative culture</a></li>
-              </ul>
-            </div> -->
-          </div>
-          <!--/brands_products-->
+          
 
 
 
@@ -63,11 +58,11 @@ while ($row = mysqli_fetch_assoc($cat_res)) {
       <div class="col-sm-9 padding-right">
         <div class="features_items">
           <!--features_items-->
-          <h2 class="title text-center">Features Items</h2>
+          <h2 class="title text-center">Related Items</h2>
 
           <?php
-          $get_product = get_product($con, 6);
-          foreach($get_product as $list){
+          foreach($data as $list){
+           
           ?>
           <div class="col-sm-4">
             <div class="product-image-wrapper">
@@ -88,7 +83,7 @@ while ($row = mysqli_fetch_assoc($cat_res)) {
             </div>
           </div>
           <?php
-          } 
+          } }
           ?>
 
         
@@ -98,6 +93,9 @@ while ($row = mysqli_fetch_assoc($cat_res)) {
     </div>
   </div>
 </section>
+
+
+
 
 
 

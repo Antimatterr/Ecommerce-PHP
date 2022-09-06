@@ -1,4 +1,11 @@
 <?php
+if(isset($_SESSION['USER_LOGIN'])){
+$user_id = $_SESSION['USER_ID'];
+$sql = "SELECT product_count FROM cart_detail WHERE user_id = '$user_id'";
+$sql_res = mysqli_query($con, $sql);
+$r = mysqli_fetch_assoc($sql_res);
+$d = $r['product_count'];
+}
 
 ?>
 <!DOCTYPE html>
@@ -126,7 +133,7 @@
 				<div class="row">
 					<div class="col-md-4 clearfix">
 						<div class="logo pull-left">
-							<a href="index.html"><img src="images/home/logo.png" alt="" /></a>
+							<a href="index.php"><img src="images/home/logo.png" alt="" /></a>
             </div>
             
 							
@@ -134,16 +141,16 @@
 					<div class="col-md-8 clearfix">
 						<div class="shop-menu clearfix pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href=""><i class="fa fa-user"></i> Account</a></li>
-								<li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
+								<!-- <li><a href="account.php"><i class="fa fa-user"></i> Account</a></li> -->
+								<!-- <li><a href=""><i class="fa fa-star"></i> Wishlist</a></li> -->
+								<?php if(isset($_SESSION['USER_LOGIN'])){ ?>
 								<li><a href="my_order.php"><i class="fa fa-crosshairs"></i>My orders</a></li>
 								
-									<li><a href="cart.php"><i class="fa fa-shopping-cart"></i> Cart <span class="qua" style="background-color: orange; padding:6px; color:white; border-radius:1000px;">0</span></a></li>
+									<li><a href="cart.php"><i class="fa fa-shopping-cart"></i> Cart <span class="qua" style="background-color: orange; padding:6px; color:white; border-radius:1000px;"><?php echo $d ?></span></a></li>
 								
-
-								<?php if(isset($_SESSION['USER_LOGIN'])){
-									echo "<li><a href='logout.php'><i class='fa fa-lock'></i>Logout</a></li>";
-									// prx($_SESSION['USER_ID']);
+								
+								 <li><a href='logout.php'><i class='fa fa-lock'></i>Logout</a></li>
+								 <?php 
 								}
 								else{
 									echo "<li><a href='login.php'><i class='fa fa-lock'></i> Login/Register</a></li>";
@@ -177,8 +184,14 @@
 						</div>
 					</div>
 					<div class="col-sm-3">
-						<div class="search_box pull-right">
-							<input type="text" placeholder="Search"/>
+						<div class=" pull-right">
+
+						<form action="search.php" method="get">
+              <input  style="border: none; background-color:white; padding:6px;" type="text" name="query" placeholder="Search"/>
+							<button type="submit" class="btn"><i class="fa fa-search"></i></button>
+            </form>
+
+							
 						</div>
 					</div>
 				</div>

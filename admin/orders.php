@@ -1,5 +1,6 @@
 <?php
 require('./top.inc.php');
+
 if(isset($_GET['type']) &&$_GET['type'] != ''){
    $type = get_safe_value($con, $_GET['type']);
 
@@ -41,6 +42,11 @@ if(isset($_GET['type']) &&$_GET['type'] != ''){
 
 $sql="SELECT * FROM `orders`";
 $res = mysqli_query($con, $sql); 
+
+$count_orders = "SELECT COUNT(*) AS ocount FROM orders";
+$count_order_res = mysqli_query($con, $count_orders);
+$r = mysqli_fetch_assoc($count_order_res);
+$d = $r['ocount'];
 ?>
          <div class="content pb-0">
             <div class="orders">
@@ -48,8 +54,8 @@ $res = mysqli_query($con, $sql);
                   <div class="col-xl-12">
                      <div class="card">
                         <div class="card-body">
-                           <h4 class="box-title">Categories </h4>
-                           <a style="color:deepskyblue;" href="manage_categories.php">Add Categories</a>
+                           <h4 class="box-title">Total Orders: <?php echo $d ?>  </h4>
+                          
                         </div>
                         <div class="card-body--">
                            <div class="table-stats order-table ov-h">

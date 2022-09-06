@@ -22,8 +22,10 @@ $cart_total = 0;
 				</ol>
 			</div>
 			<div class="table-responsive cart_info">
+<?php
+if(isset($_SESSION['USER_ID'])){ 
+?>
 
-	
 				<table class="table table-condensed">
 					<thead>
 						<tr class="cart_menu">
@@ -37,7 +39,7 @@ $cart_total = 0;
 						</tr>
 					</thead>
 							<?php
-					if(isset($_SESSION['USER_ID'])){
+					
 					while($row=mysqli_fetch_assoc($cart_res)){
 						$cart_total = $cart_total+$row['total_price'];
 
